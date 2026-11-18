@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F4F7FB">
+<link rel="icon" href="data:,">
+<title>Tu Micro · Quillacollo → Japo K’asa</title>
+<style>
+:root{--bg:#F4F7FB;--card:#fff;--line:#E2E9F2;--text:#1B2A41;--mut:#63748C;--blue:#2F7BE0;--blueT:#E4F0FF;--mint:#0F9D6B;--mintT:#DDF6EC;--amber:#9A6206;--amberT:#FFF3D1;--rose:#D1466D;--roseT:#FFE5EC;--lilac:#6C4FD6;--lilacT:#ECE6FF;--peach:#C4561C;--peachT:#FFEBDF;--gray:#55657D;--grayT:#EDF1F6;--sh:0 2px 10px rgba(27,42,65,.06);--r:16px}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+body{font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--text);background:var(--bg);display:flex;justify-content:center}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;text-align:inherit}
+.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+#app{width:min(440px,100%);height:100vh;height:100dvh;display:flex;flex-direction:column;position:relative;overflow:hidden}
+header{display:flex;align-items:center;gap:10px;padding:14px 16px 6px}
+.logo{width:40px;height:40px;border-radius:13px;background:var(--blue);color:#fff;display:grid;place-items:center}
+.brand b{display:block;font-size:17px}
+.brand small{color:var(--mut);font-size:12px}
+.sp{flex:1;min-width:0}
+.ib{width:42px;height:42px;border-radius:13px;background:var(--card);box-shadow:var(--sh);display:grid;place-items:center;position:relative;flex:none}
+.badge{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;border-radius:9px;background:var(--rose);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center;padding:0 4px}
+main{flex:1;overflow-y:auto;padding:4px 16px 124px;scrollbar-width:none}
+.screen{display:none}
+.screen.on{display:block}
+nav{position:absolute;left:12px;right:12px;bottom:14px;display:none;grid-template-columns:repeat(4,1fr);gap:4px;padding:6px;background:var(--card);border-radius:22px;box-shadow:0 8px 24px rgba(27,42,65,.13);z-index:20}
+nav.show{display:grid}
+nav button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 0;border-radius:16px;font-size:11px;font-weight:600;color:var(--mut)}
+nav button.on{background:var(--blueT);color:var(--blue)}
+.h1{font-size:28px;font-weight:800;line-height:1.15}
+.h2{font-size:19px;font-weight:700}
+.sec{font-size:12px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.06em;margin:20px 2px 8px;display:flex;align-items:center;gap:8px}
+.muted{color:var(--mut)}
+.small{font-size:13px}
+.ell{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row{display:flex;align-items:center;gap:10px}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:14px;margin-bottom:12px}
+.item{display:flex;gap:12px;align-items:center;background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:12px;margin-bottom:10px;cursor:pointer;min-width:0}
+.item.static{cursor:default}
+.item:active{transform:scale(.99)}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:99px;font-size:12px;font-weight:600;white-space:nowrap}
+.p-blue{background:var(--blueT);color:var(--blue)}
+.p-mint{background:var(--mintT);color:var(--mint)}
+.p-amber{background:var(--amberT);color:var(--amber)}
+.p-rose{background:var(--roseT);color:var(--rose)}
+.p-lilac{background:var(--lilacT);color:var(--lilac)}
+.p-peach{background:var(--peachT);color:var(--peach)}
+.p-gray{background:var(--grayT);color:var(--gray)}
+.ibox{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:var(--blueT);color:var(--blue);flex:none}
+.thumb{width:60px;height:60px;border-radius:14px;display:grid;place-items:center;flex:none;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb .i{width:28px;height:28px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px 16px;border-radius:14px;font-weight:700;margin-top:10px}
+.btn.pri{background:var(--blue);color:#fff}
+.btn.mint{background:var(--mint);color:#fff}
+.btn.ghost{background:var(--card);box-shadow:var(--sh)}
+.btn.sm{width:auto;margin:0;padding:9px 14px;font-size:13px;border-radius:12px}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.field{width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:#fff;outline:none;font-size:15px}
+.field:focus{border-color:var(--blue)}
+.lbl{display:block;font-size:13px;font-weight:600;color:var(--mut);margin:14px 2px 6px}
+.seg{display:flex;gap:4px;background:var(--grayT);padding:4px;border-radius:12px}
+.seg label{flex:1;text-align:center;padding:9px 4px;border-radius:9px;font-size:13px;font-weight:600;color:var(--mut);cursor:pointer}
+.seg input:checked+label{background:#fff;color:var(--blue);box-shadow:var(--sh)}
+.drop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:120px;border:2px dashed #C6D4E6;border-radius:16px;background:#fff;color:var(--mut);cursor:pointer;overflow:hidden;text-align:center}
+.drop img{width:100%;height:160px;object-fit:cover}
+.rolecard{display:flex;gap:14px;align-items:center;width:100%;background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:16px;margin-bottom:12px;cursor:pointer}
+.rolecard span{display:block}
+.map{position:relative;border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);background:#EEF4FA}
+.map .sv svg{display:block;width:100%;height:auto}
+.map svg text{font:600 9px system-ui,sans-serif;fill:#2C4A70}
+.tag{position:absolute;top:10px;left:10px;background:rgba(255,255,255,.94);border-radius:99px;padding:5px 10px;font-size:12px;font-weight:700;display:flex;gap:6px;align-items:center}
+.live{width:8px;height:8px;border-radius:50%;background:var(--rose);display:inline-block}
+.hud{position:absolute;left:10px;right:10px;bottom:10px;display:flex;gap:8px}
+.hud div{flex:1;background:rgba(255,255,255,.94);border-radius:12px;padding:7px 9px;font-size:12px;color:var(--mut)}
+.hud b{display:block;font-size:16px;color:var(--text)}
+.plate{display:inline-block;background:#fff;border:2px solid #334155;border-radius:7px;padding:2px 8px;font-weight:800;font-size:13px;letter-spacing:.06em;white-space:nowrap}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:var(--card);border-radius:14px;box-shadow:var(--sh);padding:12px;text-align:center}
+.stat b{display:block;font-size:20px}
+.stat small{font-size:11px;color:var(--mut)}
+.stoprow{display:flex;align-items:center;gap:12px;padding:11px 6px;border-bottom:1px solid var(--line);cursor:pointer;border-radius:10px}
+.stoprow:last-child{border-bottom:0}
+.stoprow.sel{background:var(--mintT)}
+.dot{width:12px;height:12px;border-radius:50%;border:3px solid var(--blue);background:#fff;flex:none}
+.stoprow.sel .dot,.stoprow.passed .dot{background:var(--mint);border-color:var(--mint)}
+.dep{display:flex;align-items:center;gap:12px;padding:11px 8px;border-radius:12px}
+.dep.next{background:var(--mintT)}
+.dep .tm{font-size:18px;font-weight:800;width:62px}
+.bar{height:10px;border-radius:99px;background:var(--grayT);overflow:hidden;margin:10px 0 14px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--mint));border-radius:99px}
+.step{display:flex;gap:12px;padding:8px 0;align-items:flex-start}
+.step .c{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--grayT);color:var(--mut);flex:none;font-size:12px;font-weight:700}
+.step.done .c{background:var(--mint);color:#fff}
+.step.now .c{background:var(--blue);color:#fff}
+.step.todo{opacity:.5}
+.code{font-size:30px;font-weight:800;letter-spacing:.22em;color:var(--rose);text-align:center;margin:6px 0}
+.feed{font:12px ui-monospace,Menlo,monospace;color:var(--blue);background:var(--blueT);border-radius:12px;padding:9px 12px;margin:-4px 0 12px}
+.switch{width:50px;height:30px;border-radius:99px;background:#CBD5E1;position:relative;flex:none;transition:background .2s}
+.switch::after{content:'';position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .2s}
+.switch[aria-pressed="true"]{background:var(--mint)}
+.switch[aria-pressed="true"]::after{left:23px}
+.sumrow{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.toasts{position:absolute;top:60px;left:12px;right:12px;z-index:50;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{display:flex;gap:10px;background:#fff;border-radius:14px;padding:12px 14px;box-shadow:0 8px 24px rgba(27,42,65,.16);animation:in .25s ease}
+.toast .i{color:var(--blue);margin-top:2px}
+.ov{position:absolute;inset:0;background:rgba(27,42,65,.3);display:none;z-index:60}
+.ov.on{display:block}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:22px 22px 0 0;padding:14px 18px 26px;z-index:61;transform:translateY(105%);transition:transform .3s;max-height:85%;overflow:auto}
+.sheet.on{transform:none}
+.grab{width:44px;height:4px;border-radius:9px;background:var(--line);margin:0 auto 14px}
+.shake{animation:sh .4s}
+@keyframes sh{20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+@keyframes in{from{opacity:0;transform:translateY(-8px)}}
+</style>
+</head>
+<body>
+<div id="app">
+ <header id="top" hidden>
+  <div class="logo"><svg class="i" style="width:22px;height:22px"><use href="#i-bus"/></svg></div>
+  <div class="brand sp"><b>TU MICRO</b><small>Quillacollo · Japo K’asa</small></div>
+  <button class="ib" data-a="go" data-id="notifs" aria-label="Avisos"><svg class="i"><use href="#i-bell"/></svg><span class="badge" id="badge" hidden>0</span></button>
+ </header>
+
+ <main id="main">
+  <section class="screen on" id="s-role">
+   <div style="padding-top:26px">
+    <span class="pill p-blue">Prototipo local · demo</span>
+    <h1 class="h1" style="margin:16px 0 8px">Tu micro en vivo,<br>Quillacollo → Japo K’asa</h1>
+    <p class="muted">Sigue el micro en el mapa, revisa horarios y envía paquetes entre los pueblos del camino.</p>
+   </div>
+   <div style="margin-top:24px">
+    <div class="rolecard" role="button" tabindex="0" data-a="role" data-id="pax">
+     <div class="ibox" style="background:var(--mintT);color:var(--mint)"><svg class="i"><use href="#i-user"/></svg></div>
+     <div class="sp"><b>Pasajero</b><span class="small muted">Mira el micro, horarios y envía paquetes.</span></div>
+     <svg class="i muted"><use href="#i-chev"/></svg>
+    </div>
+    <div class="rolecard" role="button" tabindex="0" data-a="role" data-id="drv">
+     <div class="ibox"><svg class="i"><use href="#i-wheel"/></svg></div>
+     <div class="sp"><b>Conductor</b><span class="small muted">Comparte tu ubicación y gestiona la carga.</span></div>
+     <svg class="i muted"><use href="#i-chev"/></svg>
+    </div>
+   </div>
+   <div class="card small muted"><b style="color:var(--text)">Ruta de demostración</b><br>Quillacollo → Confital → Bombeo → Sayari → Pongo → Tacopaya → Challa → Confital → Japo K’asa.</div>
+  </section>
+  <section class="screen" id="s-pax-home"></section>
+  <section class="screen" id="s-pax-track"></section>
+  <section class="screen" id="s-pkg-list"></section>
+  <section class="screen" id="s-pkg-new"></section>
+  <section class="screen" id="s-pkg-detail"></section>
+  <section class="screen" id="s-drv-home"></section>
+  <section class="screen" id="s-drv-drive"></section>
+  <section class="screen" id="s-drv-pkg"></section>
+  <section class="screen" id="s-notifs"></section>
+  <section class="screen" id="s-profile"></section>
+ </main>
+
+ <nav id="nav"></nav>
+ <div class="toasts" id="toasts"></div>
+ <div class="ov" id="ov"></div>
+ <div class="sheet" id="sheet"></div>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-bus" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="14" rx="3"/><path d="M4 11h16M8 21v-4M16 21v-4M8.5 14h.01M15.5 14h.01"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></symbol>
+<symbol id="i-box" viewBox="0 0 24 24"><path d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5z"/><path d="M3.5 7.5 12 12l8.5-4.5M12 12v9"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+<symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H14a3.5 3.5 0 0 0 0-7h-4a3.5 3.5 0 0 1 0-7h5.5"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-camera" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="3"/><circle cx="12" cy="13.5" r="3.5"/><path d="M8.5 7 10 4.5h4L15.5 7"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.5c0 4.5 3.2 8 7.5 9.5 4.3-1.5 7.5-5 7.5-9.5V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+<symbol id="i-gps" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></symbol>
+<symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h12l-2 4 2 4H5"/></symbol>
+<symbol id="i-logout" viewBox="0 0 24 24"><path d="M10 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4M15 8l4 4-4 4M19 12H9"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.4-5.7M20 4v5h-5"/></symbol>
+<symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 3 5 14h6l-1 7 8-11h-6z"/></symbol>
+<symbol id="i-wheel" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/><path d="M12 3.5v6M4.8 15.8 10 13M19.2 15.8 14 13"/></symbol>
+<symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5L6 20"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+<symbol id="i-fruit" viewBox="0 0 24 24"><circle cx="9.5" cy="14" r="5"/><circle cx="15" cy="14" r="5"/><path d="M12 9c0-2 1-3.5 3-4.5"/></symbol>
+<symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></symbol>
+</svg>
+
+<script>
+/* ───── Utilidades ───── */
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const pad=n=>String(n).padStart(2,'0');
+const esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+const fmt1=n=>n.toFixed(1).replace('.',',');
+const ic=(n,c='')=>`<svg class="i ${c}"><use href="#i-${n}"/></svg>`;
+const clock=()=>new Date().toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'});
+const nowMin=()=>{const d=new Date();return d.getHours()*60+d.getMinutes()+d.getSeconds()/60};
+const fmtHM=m=>{m=((Math.round(m)%1440)+1440)%1440;return pad(Math.floor(m/60))+':'+pad(m%60)};
+const cdText=t=>{const d=t-nowMin();if(d<.5)return 'Ahora';if(d<60)return 'En '+Math.ceil(d)+' min';return `En ${Math.floor(d/60)} h ${pad(Math.round(d%60))} min`};
+const buzz=()=>{if(navigator.vibrate)navigator.vibrate(10)};
+const setT=(id,v)=>{const el=document.getElementById(id);if(el){const t=String(v);if(el.textContent!==t)el.textContent=t}};
+const setH=(id,h)=>{const el=document.getElementById(id);if(el&&el.dataset.h!==h){el.dataset.h=h;el.innerHTML=h}};
+const shake=id=>{const el=document.getElementById(id);if(el){el.classList.add('shake');setTimeout(()=>el.classList.remove('shake'),400)}};
+
+/* ───── Datos de demostración ───── */
+const KM=232,FREQ=90,FIRST=300,LAST=1260,PAX=3,FARE=20,DELIV=15,SPEED=44;
+const DUR=(()=>{const m=Math.round(KM/SPEED*60);return `${Math.floor(m/60)} h ${pad(m%60)} min`})();
+const ROUTE={
+ stops:['Quillacollo','Confital','Bombeo','Sayari','Pongo','Tacopaya','Challa','Confital','Japo K’asa'].map((n,i,a)=>({id:['qll','con','bom','say','pon','tac','cha','con2','jap'][i],name:n,t:i/(a.length-1),km:Math.round(i/(a.length-1)*KM)})),
+ pts:[[28,56],[56,70],[90,92],[124,118],[160,138],[194,156],[226,168],[258,162],[292,142],[320,110],[342,74]]
+};
+const GA=[-17.3933,-66.2809],GB=[-17.965,-67.11];
+const DEPS=[];for(let t=FIRST;t<=LAST;t+=FREQ)DEPS.push(t);
+const SEG=[0];for(let i=1;i<ROUTE.pts.length;i++){const a=ROUTE.pts[i-1],b=ROUTE.pts[i];SEG.push(SEG[i-1]+Math.hypot(b[0]-a[0],b[1]-a[1]))}
+const TOTAL=SEG[SEG.length-1];
+function lenAt(t){const d=Math.max(0,Math.min(1,t))*TOTAL;let i=1;while(i<SEG.length-1&&SEG[i]<d)i++;const p0=ROUTE.pts[i-1],p1=ROUTE.pts[i],f=(d-SEG[i-1])/((SEG[i]-SEG[i-1])||1);return{x:p0[0]+(p1[0]-p0[0])*f,y:p0[1]+(p1[1]-p0[1])*f,a:Math.atan2(p1[1]-p0[1],p1[0]-p0[0])*180/Math.PI}}
+const stopById=id=>ROUTE.stops.find(s=>s.id===id);
+const stopT=id=>stopById(id).t;
+const stopName=id=>stopById(id)?stopById(id).name:id;
+const stopIdx=id=>ROUTE.stops.findIndex(s=>s.id===id);
+const nextDep=()=>{const nm=nowMin();return DEPS.find(t=>t>=nm)??DEPS[0]+1440};
+const geo=t=>[GA[0]+(GB[0]-GA[0])*t,GA[1]+(GB[1]-GA[1])*t];
+const HIST=[['Lun · Quillacollo → Confital','Bs 40'],['Sáb · Envío TG-3911','Entregado'],['Vie · Bombeo → Tacopaya','Bs 25']];
+const EST=[['Esperando conductor','gray'],['Conductor asignado','blue'],['A bordo','mint'],['Cerca de destino','amber'],['Listo para recoger','rose'],['Entregado','gray']];
+const TH={box:['var(--blueT)','var(--blue)'],fruit:['var(--peachT)','var(--peach)'],doc:['var(--mintT)','var(--mint)']};
+const NAV={'pax-home':0,'pax-track':0,'pkg-list':1,'pkg-new':1,'pkg-detail':1,'drv-home':0,'drv-drive':0,'drv-pkg':1,notifs:2,profile:3};
+
+/* ───── Estado ───── */
+const S={role:null,screen:'role',sel:'bom',selPkg:null,unread:0,notifs:[],pkgs:[],veh:{t:.14,speed:44,base:44,dwell:0,idle:0},run:null,gps:false,drvDep:0,draft:null,sig:'',schedK:-1,trK:'',gfT:0,cap:22,occ:14};
+const pos=()=>S.run||S.veh;
+function seed(){
+ S.pkgs=[
+  {id:'TG-4821',desc:'Caja de chocolates "Para Ti"',size:'Pequeño',from:'qll',to:'jap',toName:'Rosa Mamani',toPhone:'+591 712 34567',fromName:'Carlos Fernández',status:2,photo:'box',created:'09:42',driver:'Mario Quispe',rejected:false},
+  {id:'TG-5160',desc:'Cesta de frutas',size:'Grande',from:'bom',to:'tac',toName:'Marco Antelo',toPhone:'+591 755 90211',fromName:'Jorge Rivas',status:1,photo:'fruit',created:'10:18',driver:'Mario Quispe',rejected:false},
+  {id:'TG-2203',desc:'Documentos notariados',size:'Pequeño',from:'qll',to:'say',toName:'Valeria Tórrez',toPhone:'+591 707 11842',fromName:'Notaría QLL',status:0,photo:'doc',created:'08:05',driver:null,rejected:false}
+ ];
+ S.notifs=[
+  {i:'check',t:'Bienvenido a Tu Micro',b:'Ruta Quillacollo → Japo K’asa con seguimiento en vivo.',w:'09:40'},
+  {i:'bus',t:'Micro en ruta',b:'El Trufi 07 salió de Quillacollo hacia Japo K’asa.',w:'09:44'},
+  {i:'box',t:'Envío en camino',b:'TG-4821 viaja a bordo hacia Japo K’asa.',w:'09:58'}
+ ];
+ S.unread=2;
+}
+
+/* ───── Helpers de vista ───── */
+const estOf=p=>p.status===0&&p.rejected?['Buscando otro conductor','amber']:EST[p.status];
+const pill=p=>{const[l,c]=estOf(p);return `<span class="pill p-${c}">${l}</span>`};
+const thumb=p=>p.photo.startsWith('data:')?`<div class="thumb"><img src="${p.photo}" alt=""></div>`:`<div class="thumb" style="background:${TH[p.photo][0]};color:${TH[p.photo][1]}">${ic(p.photo)}</div>`;
+const pkgSig=()=>S.pkgs.map(p=>p.status+(p.rejected?'r':'')).join();
+const find=id=>S.pkgs.find(p=>p.id===id);
+const nextStop=r=>ROUTE.stops.find(s=>!r.stopsDone.includes(s.id)&&r.t>=s.t-.02);
+function etaTo(t){const v=pos();if(v.t>=t)return{passed:true,min:0,km:0};const km=(t-v.t)*KM;return{passed:false,km,min:Math.max(1,Math.round(km/v.speed*60))}}
+function kmText(p){const v=pos();if(p.status===1)return 'Recoger en '+stopName(p.from);const t=stopT(p.to);return v.t>=t?'Llegó a '+stopName(p.to):`A ${fmt1((t-v.t)*KM)} km de ${stopName(p.to)}`}
+const reqHTML=p=>`<div class="card">
+ <div class="row">${thumb(p)}<div class="sp"><b class="ell">${esc(p.desc)}</b><div class="small muted">${stopName(p.from)} → ${stopName(p.to)}</div><div class="small muted">Para ${esc(p.toName)}</div></div></div>
+ <div class="row" style="margin-top:10px"><button class="btn pri sm" data-a="accept" data-id="${p.id}">${ic('check')} Aceptar</button><button class="btn ghost sm" data-a="reject" data-id="${p.id}">Rechazar</button></div>
+</div>`;
+
+/* ───── Mapa ───── */
+function mapSVG(clk){
+ const P='M'+ROUTE.pts.map(p=>p.join(' ')).join(' L');
+ const st=ROUTE.stops.map(s=>{const p=lenAt(s.t);return `<g class="stop"${clk?` data-stop="${s.id}"`:''}>${clk?`<circle cx="${p.x}" cy="${p.y}" r="11" fill="transparent"/>`:''}<circle cx="${p.x}" cy="${p.y}" r="4.5" fill="#fff" stroke="#2F7BE0" stroke-width="2.2"/><text x="${s.t===1?p.x-8:p.x+8}" y="${p.y+3}"${s.t===1?' text-anchor="end"':''}>${s.name}</text></g>`}).join('');
+ const o=lenAt(0),d=lenAt(1);
+ return `<svg viewBox="0 0 360 230" preserveAspectRatio="xMidYMid slice">
+<rect width="360" height="230" fill="#EEF4FA"/>
+<path d="M0 40H360M0 110H360M0 190H360M80 0V230M220 0V230" stroke="#fff" stroke-width="6"/>
+<rect x="100" y="28" width="54" height="40" rx="8" fill="#DDF3E4"/><rect x="240" y="172" width="66" height="40" rx="8" fill="#DDF3E4"/>
+<path d="M320 0C310 50 340 80 328 130C316 180 338 210 334 230" fill="none" stroke="#CFE6F5" stroke-width="16" stroke-linecap="round"/>
+<path d="${P}" fill="none" stroke="#2F7BE0" stroke-opacity=".2" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="${P}" fill="none" stroke="#2F7BE0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+${st}
+<circle cx="${o.x}" cy="${o.y}" r="7" fill="#0F9D6B" stroke="#fff" stroke-width="2"/>
+<circle cx="${d.x}" cy="${d.y}" r="7" fill="#D1466D" stroke="#fff" stroke-width="2"/>
+<g class="veh"><circle r="10" fill="#2F7BE0" stroke="#fff" stroke-width="2.5"/><path d="M4.5 0-2.5-3.5v7z" fill="#fff"/></g>
+</svg>`;
+}
+let curVeh=null,lastA=0;
+function moveVeh(snap){
+ const p=lenAt(pos().t);
+ if(snap)lastA=p.a;else{const d=((p.a-lastA+540)%360)-180;lastA+=d*.3}
+ if(curVeh&&curVeh.isConnected)curVeh.setAttribute('transform',`translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) rotate(${lastA.toFixed(1)})`);
+}
+function drawMap(id,clk){
+ const w=document.getElementById(id);if(!w)return;
+ w.querySelector('.sv').innerHTML=mapSVG(clk);
+ curVeh=w.querySelector('.veh');
+ w.onclick=clk?e=>{const g=e.target.closest('[data-stop]');if(g)selectStop(g.dataset.stop)}:null;
+ moveVeh(true);
+}
+
+/* ───── Pasajero ───── */
+function renderHome(){
+ $('#s-pax-home').innerHTML=`
+ <div class="card" style="background:linear-gradient(135deg,#E4F0FF,#DDF6EC);margin-top:6px">
+  <div class="small muted">Carretera Quillacollo–Japo K’asa · ${KM} km</div>
+  <div class="h2">Quillacollo → Japo K’asa</div>
+  <div class="small muted">Ruta de demostración · ${DUR} de viaje aprox.</div>
+ </div>
+ <div class="sec">Micro en vivo</div>
+ <div class="map" id="mapHome"><div class="sv"></div><div class="tag"><span class="live"></span>EN VIVO</div></div>
+ <div class="sec">Tu parada</div>
+ <div class="grid3">
+  <div class="stat"><b id="stEta">–</b><small>min</small></div>
+  <div class="stat"><b id="stKm">–</b><small>km</small></div>
+  <div class="stat"><b id="stSpd">–</b><small>km/h</small></div>
+ </div>
+ <div class="card" style="margin-top:10px" id="stops"></div>
+ <div class="card"><div class="row"><div class="ibox">${ic('bus')}</div><div class="sp"><b>Trufi 07 · Toyota Coaster</b><div class="small muted">Mario Quispe · ★ 4,9</div></div><span class="plate">4821·KDA</span></div><div class="grid3" style="margin-top:12px"><div class="stat"><b id="asFree">–</b><small>asientos libres</small></div><div class="stat"><b id="canBoard">–</b><small>se puede subir</small></div><div class="stat"><b id="cargo">0</b><small>paquetes a bordo</small></div></div><div class="small muted" style="margin-top:10px">Pagas al subir: Efectivo o QR</div><button class="btn ghost" data-a="ficha">${ic('bus')} Ver ficha del vehículo</button></div>
+ <button class="btn pri" data-a="go" data-id="pax-track">${ic('pin')} Ver seguimiento en vivo</button>
+ <div class="sec">Salidas desde Quillacollo · cada ${FREQ} min</div>
+ <div class="card" id="sched"></div>`;
+ drawMap('mapHome',true);renderStops();renderSchedule();
+}
+function renderStops(){
+ $('#stops').innerHTML=ROUTE.stops.map(s=>`<div class="stoprow ${s.id===S.sel?'sel':''}" role="button" tabindex="0" data-a="stop" data-id="${s.id}"><span class="dot"></span><span class="sp"><b>${s.name}</b><small class="muted" style="display:block">Km ${s.km}</small></span><b id="eta-${s.id}" style="font-size:13px"></b></div>`).join('');
+}
+function renderSchedule(){
+ const nm=nowMin(),ni=DEPS.findIndex(t=>t>=nm);
+ $('#sched').innerHTML=DEPS.map((t,i)=>{
+  const nx=i===ni;const[l,c]=nx?['Próxima','mint']:t<nm?['Salió','gray']:['Programada','blue'];
+  return `<div class="dep ${nx?'next':''}"><div class="tm">${fmtHM(t)}</div><div class="sp"><b>Trufi 07 · QLL → JAP</b><div class="small muted">${nx?cdText(t):'Andén 3'}</div></div><span class="pill p-${c}">${l}</span></div>`;
+ }).join('')+`<div class="small muted" style="padding:8px 8px 2px">Primera ${fmtHM(FIRST)} · última ${fmtHM(LAST)}</div>`;
+}
+function selectStop(id){
+ S.sel=id;buzz();
+ if(S.screen==='pax-home')renderStops();
+ if(S.screen==='pax-track')renderTrack();
+ live();
+}
+function renderTrack(){
+ const s=stopById(S.sel);
+ $('#s-pax-track').innerHTML=`
+ <div class="row" style="margin:6px 0 12px"><button class="ib" data-a="go" data-id="pax-home" aria-label="Volver">${ic('back')}</button><div class="h2 sp">Seguimiento</div><span class="pill p-blue">QLL → JAP</span></div>
+ <div class="map" id="mapTrack"><div class="sv"></div>
+  <div class="tag"><span class="live"></span>EN VIVO · GPS</div>
+  <div class="hud"><div><b id="hEta">–</b>Llega en</div><div><b><span id="hKm">–</span> km</b>Restante</div><div><b id="hSpd">–</b>km/h</div></div>
+ </div>
+ <div class="card" style="margin-top:12px">
+  <div class="small muted">Próxima parada seleccionada</div>
+  <div class="row" style="justify-content:space-between;align-items:flex-end"><b class="h2">${s.name}</b><span><b style="font-size:26px" id="trEta">–</b> <span class="muted">min</span></span></div>
+ </div>
+ <div class="card" id="trStops"></div>
+ <div class="card row"><div class="ibox">${ic('bus')}</div><div class="sp"><b>Trufi 07 · Toyota Coaster</b><div class="small muted">Mario Quispe · compartiendo GPS</div></div><span class="plate">4821·KDA</span></div>
+ ${S.run?'':`<button class="btn ghost" data-a="simreset">${ic('refresh')} El micro ya pasó · reiniciar</button>`}`;
+ drawMap('mapTrack',true);renderTrackList();
+}
+function renderTrackList(){
+ const v=pos();
+ $('#trStops').innerHTML=ROUTE.stops.map(s=>{const pa=v.t>=s.t;return `<div class="stoprow ${s.id===S.sel?'sel':''} ${pa?'passed':''}" role="button" tabindex="0" data-a="stop" data-id="${s.id}"><span class="dot"></span><span class="sp">${s.name}${s.id===S.sel?' · tu parada':''}</span><span class="small muted">${pa?'Pasó':'Km '+s.km}</span></div>`}).join('');
+ S.trK=S.sel+'|'+ROUTE.stops.filter(s=>v.t>=s.t).length;
+}
+function renderPkgList(){
+ $('#s-pkg-list').innerHTML=`<div class="row" style="margin:6px 0 12px"><div class="h2 sp">Mis envíos</div><button class="btn pri sm" data-a="go" data-id="pkg-new">${ic('plus')} Nuevo</button></div>`+
+ (S.pkgs.length?S.pkgs.map(p=>`<div class="item" role="button" tabindex="0" data-a="open" data-id="${p.id}">${thumb(p)}<div class="sp"><b class="ell">${esc(p.desc)}</b><div class="small muted ell">${stopName(p.from)} → ${stopName(p.to)} · ${p.id}</div><div style="margin-top:6px">${pill(p)}</div></div>${ic('chev','muted')}</div>`).join(''):'<div class="card muted small">Aún no tienes envíos. Crea el primero con «Nuevo».</div>')+
+ `<div class="card small muted">El <b>remitente</b> registra el paquete con foto, el <b>conductor</b> lo recoge y el <b>destinatario</b> sigue el micro y recibe un aviso al llegar.</div>`;
+}
+function renderPkgNew(){
+ S.draft=null;
+ const opts=v=>ROUTE.stops.map(s=>`<option value="${s.id}" ${s.id===v?'selected':''}>${s.name} · km ${s.km}</option>`).join('');
+ $('#s-pkg-new').innerHTML=`
+ <div class="row" style="margin:6px 0 10px"><button class="ib" data-a="go" data-id="pkg-list" aria-label="Volver">${ic('back')}</button><div class="h2">Registrar envío</div></div>
+ <form id="pf" novalidate>
+  <label class="lbl" for="from">Pueblo de origen</label><select class="field" id="from" name="from">${opts('qll')}</select>
+  <label class="lbl" for="to">Pueblo de destino</label><select class="field" id="to" name="to">${opts('jap')}</select>
+  <label class="lbl" for="dest">Quien recibe</label><input class="field" id="dest" name="dest" maxlength="40" autocomplete="off">
+  <label class="lbl" for="phone">Teléfono de contacto</label><input class="field" id="phone" name="phone" inputmode="tel" maxlength="18" placeholder="+591 7XX XXX XX">
+  <label class="lbl" for="desc">Descripción del paquete</label><textarea class="field" id="desc" name="desc" rows="2" maxlength="90" placeholder="Ej.: Caja con ropa, frágil"></textarea>
+  <div class="lbl">Tamaño</div>
+  <div class="seg">
+   <input type="radio" name="size" id="z1" value="Pequeño" checked hidden><label for="z1">Pequeño</label>
+   <input type="radio" name="size" id="z2" value="Mediano" hidden><label for="z2">Mediano</label>
+   <input type="radio" name="size" id="z3" value="Grande" hidden><label for="z3">Grande</label>
+  </div>
+  <div class="lbl">Peso aproximado (kg)</div><input class="field" id="peso" name="peso" type="number" min="0" step="0.5" placeholder="Ej.: 4">
+  <div class="lbl">¿Quién paga el envío?</div><div class="seg"><input type="radio" name="payer" id="p1" value="Remitente" checked hidden><label for="p1">Remitente</label><input type="radio" name="payer" id="p2" value="Destinatario" hidden><label for="p2">Destinatario</label></div>
+  <div class="lbl">Forma de pago</div><div class="seg"><input type="radio" name="pay" id="m1" value="Efectivo" checked hidden><label for="m1">Efectivo</label><input type="radio" name="pay" id="m2" value="QR" hidden><label for="m2">QR</label></div>
+  <div class="lbl">Foto del paquete</div>
+  <label class="drop" for="pfile" id="pdrop">${ic('camera')}<span class="small">Toca para subir una foto</span></label>
+  <input type="file" id="pfile" accept="image/*" hidden>
+  <button type="button" class="btn ghost" data-a="demo">${ic('image')} Usar foto de demostración</button>
+  <button class="btn pri" type="submit">${ic('check')} Registrar envío</button>
+ </form>`;
+}
+function shrink(file,cb){
+ const img=new Image(),u=URL.createObjectURL(file);
+ img.onload=()=>{const m=240/Math.max(img.width,img.height),c=document.createElement('canvas');c.width=Math.round(img.width*m);c.height=Math.round(img.height*m);c.getContext('2d').drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(u);cb(c.toDataURL('image/jpeg',.8))};
+ img.src=u;
+}
+function submitPkg(f){
+ const from=f.from.value,to=f.to.value,name=f.dest.value.trim(),desc=f.desc.value.trim();
+ const fi=stopIdx(from),ti=stopIdx(to);
+ const err=fi===ti?'El origen y el destino no pueden ser el mismo pueblo.':fi>ti?'El micro solo va de Quillacollo hacia Japo K’asa: el destino debe estar más adelante.':(!name||!desc)?'Completa destinatario y descripción.':'';
+ if(err){shake('pf');notify('info','Revisa el envío',err);return}
+ const p={id:'TG-'+(1000+Math.floor(Math.random()*9000)),desc,size:f.size.value,from,to,toName:name,toPhone:f.phone.value.trim()||'—',fromName:'Carla Rojas',status:0,photo:S.draft||'box',created:clock(),driver:null,rejected:false,weight:f.peso.value?f.peso.value+' kg':'',payer:f.payer.value,pay:f.pay.value};
+ S.pkgs.unshift(p);S.selPkg=p.id;S.draft=null;buzz();
+ notify('box','Envío registrado',`${p.id} · esperando conductor`,true);
+ go('pkg-detail');
+}
+function renderPkgDetail(){
+ const p=find(S.selPkg);if(!p){go('pkg-list');return}
+ const steps=['Registrado','Conductor asignado','A bordo','Cerca de destino','Listo para recoger','Entregado'];
+ $('#s-pkg-detail').innerHTML=`
+ <div class="row" style="margin:6px 0 10px"><button class="ib" data-a="go" data-id="pkg-list" aria-label="Volver">${ic('back')}</button><div class="h2 sp ell">${p.id}</div>${pill(p)}</div>
+ <div class="map" id="mapPkg"><div class="sv"></div>
+  <div class="tag"><span class="live"></span>SIGUIENDO MICRO</div>
+  <div class="hud"><div><b id="pkEta">–</b>A destino</div><div><b><span id="pkKm">–</span> km</b>Restantes</div></div>
+ </div>
+ <div class="card" style="margin-top:12px">
+  <div class="row">${thumb(p)}<div class="sp"><b class="ell">${esc(p.desc)}</b><div class="small muted">Tamaño ${esc(p.size)} · ${p.weight?esc(p.weight)+' · ':''}Registrado ${p.created}</div><div class="small muted">Paga ${esc(p.payer||'—')} · ${esc(p.pay||'—')}</div></div></div>
+  <div class="row" style="margin-top:12px;align-items:stretch">
+   <div style="flex:1;padding:10px;border-radius:12px;background:var(--blueT)"><div class="small muted">Remite · ${stopName(p.from)}</div><b>${esc(p.fromName)}</b></div>
+   <div style="flex:1;padding:10px;border-radius:12px;background:var(--roseT)"><div class="small" style="color:var(--rose)">Destino · ${stopName(p.to)}</div><b>${esc(p.toName)}</b><div class="small muted">${esc(p.toPhone)}</div></div>
+  </div>
+  <div class="small muted" style="margin-top:12px">${ic('bus')} Conductor: <b style="color:var(--text)">${esc(p.driver||'Buscando…')}</b></div>
+ </div>
+ <div class="card">${steps.map((s,i)=>`<div class="step ${i<=p.status?'done':''} ${i===p.status?'now':''} ${i>p.status?'todo':''}"><span class="c">${i<=p.status?ic('check'):i+1}</span><div><b>${s}</b><div class="small muted">${i===p.status?(p.status===4?'Recoge en '+stopName(p.to):p.status===5?'Completado':'En curso'):i<p.status?'Completado':'Pendiente'}</div></div></div>`).join('')}</div>
+ ${p.status===4?`<div class="card" style="text-align:center;background:var(--roseT)"><div class="small" style="color:var(--rose);font-weight:700">Código de entrega</div><div class="code">${p.id.slice(3)}</div><div class="small muted">Muéstralo al conductor en ${stopName(p.to)}</div></div>`:''}`;
+ drawMap('mapPkg',false);updatePkgDetail();
+}
+function updatePkgDetail(){
+ const p=find(S.selPkg);if(!p||!document.getElementById('pkEta'))return;
+ const v=pos(),t=stopT(p.to);
+ if(v.t>=t){setT('pkEta','LLEGÓ');setT('pkKm','0,0')}
+ else{const km=(t-v.t)*KM;setT('pkEta',Math.max(1,Math.round(km/v.speed*60))+' min');setT('pkKm',fmt1(km))}
+}
+
+/* ───── Conductor ───── */
+function renderDrvHome(){
+ S.drvDep=nextDep();
+ const reqs=S.pkgs.filter(p=>p.status===0&&!p.rejected);
+ $('#s-drv-home').innerHTML=`
+ <div class="row" style="margin:6px 0 12px"><div class="h2 sp">Panel del conductor</div><span class="pill p-peach">${ic('wheel')} Unidad 07</span></div>
+ <div class="card" style="background:linear-gradient(135deg,#E4F0FF,#DDF6EC)"><div class="small muted">Recorrido de hoy</div><div class="h2">Quillacollo → Japo K’asa</div><div class="small muted">${ROUTE.stops.length-2} paradas intermedias · ${KM} km · ${DUR} aprox.</div></div>
+ <div class="card row"><div class="ibox">${ic('bus')}</div><div class="sp"><b>Toyota Coaster · 2019</b><div class="small muted">Mario Quispe · Lic. A</div></div><span class="plate">4821·KDA</span></div>
+ <div class="card row" id="gcard">
+  <div class="ibox" style="background:${S.gps?'var(--mintT)':'var(--grayT)'};color:${S.gps?'var(--mint)':'var(--gray)'}">${ic('gps')}</div>
+  <div class="sp"><b>GPS del celular</b><div class="small muted">${S.gps?'Activo · compartiendo ubicación':'Apagado · sin compartir'}</div></div>
+  <button class="switch" data-a="gps" aria-pressed="${S.gps}" aria-label="Activar GPS"></button>
+ </div>
+ ${S.gps?'<div class="feed" id="gfeed">&gt; esperando señal…</div>':''}
+ <div class="card row"><div class="ibox">${ic('clock')}</div><div class="sp"><b>Tu salida programada</b><div class="small muted">Andén 3 · Quillacollo</div></div><div style="text-align:right"><b>${fmtHM(S.drvDep)}</b><div class="small muted" id="cd">${cdText(S.drvDep)}</div></div></div>
+ <button class="btn ${S.run?'mint':'pri'}" data-a="start">${ic('zap')} ${S.run?'Retomar recorrido':'Iniciar recorrido'}</button>
+ <div class="sec">Solicitudes de envío <span class="pill p-lilac">${reqs.length}</span></div>
+ ${reqs.length?reqs.map(reqHTML).join(''):'<div class="card muted small">Sin solicitudes por ahora.</div>'}`;
+}
+function renderDrive(){
+ if(!S.run){go('drv-home');return}
+ $('#s-drv-drive').innerHTML=`
+ <div class="row" style="margin:6px 0 12px"><button class="ib" data-a="go" data-id="drv-home" aria-label="Volver">${ic('back')}</button><div class="h2 sp">Recorrido</div><span class="pill p-mint">${ic('gps')} GPS compartido</span></div>
+ <div class="card">
+  <div class="row small muted" style="justify-content:space-between"><span>Quillacollo</span><span>Japo K’asa</span></div>
+  <div class="bar"><i id="pFill"></i></div>
+  <div class="grid3">
+   <div class="stat"><b id="dSpd">–</b><small>km/h</small></div>
+   <div class="stat"><b id="dKm">–</b><small>km restantes</small></div>
+   <div class="stat"><b id="dEta">–</b><small>min a Japo K’asa</small></div>
+  </div>
+  <div class="row small" style="margin-top:12px;justify-content:space-between"><span>Ocupados: <b id="dPax">${S.occ}/${S.cap}</b></span><span>Recaudado: <b id="dEarn" style="color:var(--mint)">Bs 0</b></span></div>
+ </div>
+ <div class="sec">Paradas</div>
+ <div class="card" id="dStops"></div>
+ <button class="btn pri" data-a="mark" id="btnMark"></button>
+ <button class="btn ghost" data-a="finish" id="btnFinish" disabled>${ic('flag')} Finalizar recorrido</button>`;
+ renderDStops();updateDrive();
+}
+function renderDStops(){
+ const r=S.run,el=document.getElementById('dStops');if(!r||!el)return;
+ el.innerHTML=ROUTE.stops.map(s=>{const d=r.stopsDone.includes(s.id);return `<div class="stoprow ${d?'passed':''}"><span class="dot"></span><span class="sp">${s.name}</span><span class="small muted">${d?'Subieron '+PAX:'Km '+s.km}</span></div>`}).join('');
+}
+function updateDrive(){
+ const r=S.run;if(!r||!document.getElementById('pFill'))return;
+ document.getElementById('pFill').style.width=(r.t*100).toFixed(1)+'%';
+ setT('dSpd',Math.round(r.dwell>0?0:r.speed));
+ setT('dKm',fmt1((1-r.t)*KM));
+ setT('dEta',Math.max(1,Math.round((1-r.t)*KM/r.speed*60)));
+ setT('dPax',S.occ+'/'+S.cap);
+ setT('dEarn','Bs '+r.earn);
+ const ns=nextStop(r);
+ setH('btnMark',ns?`${ic('pin')} Marcar parada · ${esc(ns.name)}`:r.t>=.985?`${ic('flag')} Llegaste a Japo K’asa`:`${ic('pin')} Próxima parada más adelante`);
+ document.getElementById('btnMark').disabled=!ns;
+ document.getElementById('btnFinish').disabled=r.t<.985;
+}
+function renderDrvPkg(){
+ S.sig=pkgSig();
+ const act=S.pkgs.filter(p=>p.status>=1&&p.status<=4),done=S.pkgs.filter(p=>p.status===5);
+ $('#s-drv-pkg').innerHTML=`<div class="h2" style="margin:6px 0 12px">Carga asignada</div>`+
+ (act.length?act.map(p=>`<div class="card">
+   <div class="row">${thumb(p)}<div class="sp"><b class="ell">${esc(p.desc)}</b><div class="small muted ell">${stopName(p.from)} → ${stopName(p.to)} · ${esc(p.toName)}</div><div style="margin-top:6px">${pill(p)}</div></div></div>
+   <div class="small muted" style="margin-top:8px" id="dk-${p.id}">${kmText(p)}</div>
+   ${p.status===4?`<button class="btn mint" data-a="deliver" data-id="${p.id}">${ic('check')} Entregar a ${esc(p.toName)}</button>`:''}
+  </div>`).join(''):'<div class="card muted small">No tienes carga asignada.</div>')+
+ (done.length?`<div class="sec">Entregados</div>`+done.map(p=>`<div class="item static" style="opacity:.75">${thumb(p)}<div class="sp"><b class="ell">${esc(p.desc)}</b><div class="small muted">${p.id} · entregado a ${esc(p.toName)}</div></div></div>`).join(''):'');
+}
+function newRun(){S.run={t:.01,speed:SPEED,base:SPEED,dwell:0,stopsDone:[],earn:0,delivered:0,started:Date.now()};moveVeh(true)}
+function ensureGps(){if(S.gps)return true;notify('gps','Activa el GPS','Enciende el GPS para compartir tu ubicación en vivo.');shake('gcard');return false}
+function startRun(){
+ if(!ensureGps())return;
+ if(!S.run){newRun();notify('zap','Recorrido iniciado','Compartiendo ubicación en vivo.',true)}
+ go('drv-drive');
+}
+function acceptReq(id){
+ if(!ensureGps())return;
+ const p=find(id);if(!p)return;
+ p.status=1;p.driver='Tú · Trufi 07';
+ if(!S.run)newRun();
+ buzz();notify('check','Recogida aceptada',`${p.id}: recógelo en ${stopName(p.from)}.`);
+ rerender();
+}
+function rejectReq(id){
+ const p=find(id);if(!p)return;
+ p.rejected=true;notify('refresh','Solicitud rechazada','El envío queda buscando otro conductor.',true);rerender();
+}
+function toggleGps(){
+ S.gps=!S.gps;buzz();
+ notify('gps',S.gps?'GPS activado':'GPS desactivado',S.gps?'Tu ubicación es visible para pasajeros y destinatarios.':'Dejaste de compartir tu ubicación.',true);
+ rerender();
+}
+function markStop(){
+ const r=S.run,s=r&&nextStop(r);if(!s)return;
+ r.stopsDone.push(s.id);r.earn+=PAX*FARE;r.dwell=1600;S.occ=Math.min(S.cap,S.occ-Math.min(S.occ,2)+PAX);buzz();
+ notify('pin','Parada: '+s.name,`Subieron ${PAX} pasajeros · Bs ${PAX*FARE}.`,true);
+ S.pkgs.filter(p=>p.status===1&&p.from===s.id).forEach(p=>{p.status=2;notify('box','Paquete a bordo',`${p.id} viaja hacia ${stopName(p.to)}.`)});
+ renderDStops();updateDrive();
+}
+function deliverPkg(p,quiet){
+ if(!p)return;
+ p.status=5;
+ if(S.run){S.run.delivered++;S.run.earn+=DELIV}
+ if(!quiet){buzz();notify('check','Entrega confirmada',`${p.id} entregado a ${p.toName}${S.run?' · +Bs '+DELIV:''}.`);rerender()}
+}
+function finishRun(){
+ const r=S.run;if(!r||r.t<.985)return;
+ S.pkgs.filter(p=>p.status===4).forEach(p=>deliverPkg(p,true));
+ openSheet(`<h3 class="h2">Recorrido finalizado</h3>
+ <p class="small muted" style="margin:4px 0 12px">Quillacollo → Japo K’asa · Trufi 07</p>
+ <div class="sumrow"><span>Distancia</span><b>${KM} km</b></div>
+ <div class="sumrow"><span>Duración aprox.</span><b>${DUR}</b></div>
+ <div class="sumrow"><span>Pasajeros subidos</span><b>${r.stopsDone.length*PAX}</b></div>
+ <div class="sumrow"><span>Paquetes entregados</span><b>${r.delivered}</b></div>
+ <div class="sumrow" style="border:0"><span>Ganancia</span><b style="color:var(--mint);font-size:18px">Bs ${r.earn}</b></div>
+ <button class="btn pri" data-a="done">Listo, volver al panel</button>`);
+ S.run=null;S.veh={t:.01,speed:SPEED,base:SPEED,dwell:0,idle:0};moveVeh(true);
+ notify('check','Buen trabajo','Resumen del recorrido disponible.',true);
+}
+function updatePkgs(){
+ const v=pos();
+ S.pkgs.forEach(p=>{
+  const t=stopT(p.to);
+  if(p.status===2&&v.t>=t-.04){p.status=3;notify('box','¡Tu paquete está cerca!',`${p.id} llega pronto a ${stopName(p.to)}. Avisamos a ${p.toName}.`)}
+  if(p.status===3&&v.t>=t){p.status=4;notify('pin','Listo para recoger',`${p.id} llegó a ${stopName(p.to)}. Código de entrega disponible.`)}
+ });
+}
+
+/* ───── Avisos, perfil y navegación ───── */
+function renderNotifs(){
+ S.unread=0;badge();
+ $('#s-notifs').innerHTML=`<div class="row" style="margin:6px 0 12px"><div class="h2 sp">Avisos</div><button class="btn ghost sm" data-a="clear">Limpiar</button></div>`+
+ (S.notifs.length?S.notifs.map(n=>`<div class="item static"><div class="ibox">${ic(n.i)}</div><div class="sp"><b>${esc(n.t)}</b><div class="small muted">${esc(n.b)}</div></div><span class="small muted">${n.w}</span></div>`).join(''):'<div class="card muted small">Sin avisos.</div>');
+}
+function renderProfile(){
+ const d=S.role==='drv';
+ $('#s-profile').innerHTML=`
+ <div class="card row" style="margin-top:6px"><div style="width:58px;height:58px;border-radius:18px;background:linear-gradient(135deg,#2F7BE0,#0F9D6B);color:#fff;font-weight:800;font-size:20px;display:grid;place-items:center">CR</div>
+  <div class="sp"><b style="font-size:18px">Carla Rojas</b><div class="small muted">${d?'Conductora verificada · Trufi 07':'Pasajera frecuente · QLL'}</div>
+  <div class="row" style="margin-top:6px;flex-wrap:wrap"><span class="pill p-amber">${ic('star')} 4,9</span><span class="pill p-mint">${ic('shield')} Verificada</span></div></div></div>
+ <div class="sec">Historial reciente</div>
+ <div class="card">${HIST.map(h=>`<div class="sumrow"><span>${h[0]}</span><span class="small muted">${h[1]}</span></div>`).join('')}</div>
+ <div class="card small muted"><b style="color:var(--text)">Prototipo local</b><br>Datos, horarios, distancias y paradas son de demostración. Nada sale de tu dispositivo.</div>
+ <button class="btn ghost" data-a="reset">${ic('refresh')} Reiniciar demo</button>
+ <button class="btn ghost" data-a="logout">${ic('logout')} Cambiar de rol</button>`;
+}
+const R={'pax-home':renderHome,'pax-track':renderTrack,'pkg-list':renderPkgList,'pkg-new':renderPkgNew,'pkg-detail':renderPkgDetail,'drv-home':renderDrvHome,'drv-drive':renderDrive,'drv-pkg':renderDrvPkg,notifs:renderNotifs,profile:renderProfile};
+function go(s){
+ S.screen=s;
+ $$('.screen').forEach(e=>e.classList.toggle('on',e.id==='s-'+s));
+ $('#main').scrollTop=0;
+ const app=s!=='role';
+ $('#top').hidden=!app;
+ $('#nav').classList.toggle('show',app);
+ $$('#nav button').forEach((b,i)=>b.classList.toggle('on',i===NAV[s]));
+ if(R[s])R[s]();
+ live();
+}
+function rerender(){if(R[S.screen])R[S.screen]()}
+function buildNav(){
+ const items=S.role==='drv'
+  ?[['wheel','Conducir','drv-home'],['box','Carga','drv-pkg'],['bell','Avisos','notifs'],['user','Perfil','profile']]
+  :[['route','Inicio','pax-home'],['box','Envíos','pkg-list'],['bell','Avisos','notifs'],['user','Perfil','profile']];
+ $('#nav').innerHTML=items.map(([i,l,s])=>`<button data-a="go" data-id="${s}">${ic(i)}<span>${l}</span></button>`).join('');
+}
+function badge(){const b=$('#badge');b.textContent=S.unread;b.hidden=!S.unread}
+function notify(i,t,b,quiet){
+ S.notifs.unshift({i,t,b,w:clock()});S.unread++;badge();
+ if(!quiet){const d=document.createElement('div');d.className='toast';d.innerHTML=`${ic(i)}<div><b>${esc(t)}</b><div class="small muted">${esc(b)}</div></div>`;$('#toasts').append(d);setTimeout(()=>d.remove(),4000)}
+}
+function openSheet(h){$('#sheet').innerHTML='<div class="grab"></div>'+h;$('#sheet').classList.add('on');$('#ov').classList.add('on')}
+function closeSheet(){$('#sheet').classList.remove('on');$('#ov').classList.remove('on')}
+function pickRole(r){
+ S.role=r;try{localStorage.setItem('tm-role',r)}catch(e){}
+ buildNav();go(r==='drv'?'drv-home':'pax-home');
+ notify('zap',r==='drv'?'Modo conductor':'¡Hola, Carla!','Demo local: ningún dato sale de tu dispositivo.',true);
+}
+function logout(){
+ S.role=null;S.run=null;S.gps=false;
+ try{localStorage.removeItem('tm-role')}catch(e){}
+ buildNav();go('role');
+}
+function resetDemo(){
+ S.veh={t:.14,speed:SPEED,base:SPEED,dwell:0,idle:0};S.run=null;S.gps=false;S.sel='bom';
+ seed();
+ notify('refresh','Demo reiniciada','Datos y micro volvieron al inicio.',true);
+ go(S.role==='drv'?'drv-home':'pax-home');
+}
+const A={
+ go:id=>go(id),
+ role:id=>pickRole(id),
+ open:id=>{S.selPkg=id;go('pkg-detail')},
+ stop:id=>selectStop(id),
+ accept:id=>acceptReq(id),
+ reject:id=>rejectReq(id),
+ deliver:id=>deliverPkg(find(id)),
+ mark:()=>markStop(),
+ finish:()=>finishRun(),
+ gps:()=>toggleGps(),
+ start:()=>startRun(),
+ demo:()=>{S.draft='box';$('#pdrop').innerHTML=`${ic('box')}<span class="small">Foto de demostración seleccionada</span>`},
+ simreset:()=>{S.veh.t=.01;S.veh.dwell=0;S.veh.idle=0;moveVeh(true);notify('refresh','Micro reiniciado','Salió de nuevo de Quillacollo.',true);rerender()},
+ reset:()=>resetDemo(),
+ logout:()=>logout(),
+ clear:()=>{S.notifs=[];renderNotifs()},ficha:()=>openFicha(),close:()=>closeSheet(),
+ done:()=>{closeSheet();go('drv-home')}
+};
+document.addEventListener('click',e=>{
+ const el=e.target.closest('[data-a]');if(!el)return;
+ const f=A[el.dataset.a];if(f)f(el.dataset.id);
+});
+document.addEventListener('keydown',e=>{
+ if(e.key==='Enter'&&e.target.hasAttribute&&e.target.hasAttribute('data-a'))e.target.click();
+});
+document.addEventListener('submit',e=>{if(e.target.id==='pf'){e.preventDefault();submitPkg(e.target)}});
+document.addEventListener('change',e=>{
+ if(e.target.id!=='pfile'||!e.target.files[0])return;
+ shrink(e.target.files[0],d=>{S.draft=d;$('#pdrop').innerHTML=`<img src="${d}" alt="">`});
+});
+$('#ov').onclick=closeSheet;
+
+/* ───── Micro: asientos, carga y ficha ───── */
+const cargoCount=()=>S.pkgs.filter(p=>p.status>=2&&p.status<=3).length;
+function openFicha(){openSheet(`<h3 class="h2">Ficha del vehículo</h3>
+<div class="sumrow"><span>Vehículo</span><b>Toyota Coaster · 2019</b></div>
+<div class="sumrow"><span>Placa</span><b>4821·KDA</b></div>
+<div class="sumrow"><span>Conductor</span><b>Mario Quispe · Lic. A</b></div>
+<div class="sumrow"><span>Asientos</span><b>${S.occ} ocupados de ${S.cap}</b></div>
+<div class="sumrow"><span>¿Se puede subir?</span><b>${S.occ<S.cap?'Sí, hay '+(S.cap-S.occ)+' libres':'Lleno'}</b></div>
+<div class="sumrow"><span>Carga a bordo</span><b>${cargoCount()} paquetes</b></div>
+<div class="sumrow" style="border:0"><span>Formas de pago</span><b>Efectivo · QR</b></div>
+<button class="btn ghost" data-a="close">Cerrar</button>`)}
+
+/* ───── Motor de simulación (cada 250 ms) ───── */
+function live(){
+ const s=S.screen,v=pos(),now=Date.now();
+ if(s==='pax-home'){
+  const e=etaTo(stopT(S.sel));
+  setT('stEta',e.passed?'—':e.min);setT('stKm',e.passed?'0,0':fmt1(e.km));setT('stSpd',Math.round(v.dwell>0?0:v.speed));setT('asFree',S.cap-S.occ);setT('canBoard',S.occ<S.cap?'Sí':'Lleno');setT('cargo',cargoCount());
+  ROUTE.stops.forEach(x=>{const q=etaTo(x.t);setT('eta-'+x.id,q.passed?'Pasó':q.min+' min')});
+  const k=Math.floor(nowMin());if(k!==S.schedK){S.schedK=k;renderSchedule()}
+ }
+ if(s==='pax-track'){
+  const e=etaTo(stopT(S.sel));
+  setT('hEta',e.passed?'0 min':e.min+' min');setT('hKm',e.passed?'0,0':fmt1(e.km));setT('hSpd',Math.round(v.dwell>0?0:v.speed));setT('trEta',e.passed?'—':e.min);
+  if(S.sel+'|'+ROUTE.stops.filter(x=>v.t>=x.t).length!==S.trK)renderTrackList();
+ }
+ if(s==='pkg-detail')updatePkgDetail();
+ if(s==='drv-home'){
+  setT('cd',cdText(S.drvDep));
+  if(S.gps&&now-S.gfT>1500){S.gfT=now;const g=geo(v.t);setT('gfeed',`> ${clock()} · ${g[0].toFixed(4)}, ${g[1].toFixed(4)} · ±${3+Math.floor(Math.random()*4)} m`)}
+  if(nextDep()!==S.drvDep)renderDrvHome();
+ }
+ if(s==='drv-drive')updateDrive();
+ if(s==='drv-pkg'){
+  if(pkgSig()!==S.sig)renderDrvPkg();
+  else S.pkgs.forEach(p=>setT('dk-'+p.id,kmText(p)));
+ }
+}
+let last=Date.now();
+function tick(){
+ const now=Date.now(),dt=Math.min(1000,now-last);last=now;
+ const v=pos();
+ if(v.dwell>0){
+  v.dwell-=dt;
+  if(v.dwell<=0&&!S.run&&v.t>=1){v.t=.01;v.idle=0;moveVeh(true)}
+ }else{
+  const was=v.t;
+  v.speed=Math.max(20,v.base+Math.sin(now/2400)*8);
+  v.t+=v.speed/(3600*KM)*(dt/1000);
+  if(v.t>=1){
+   v.t=1;
+   if(was<1&&!S.run)notify('bus','Micro llegó a Japo K’asa','Se detuvo al final de la ruta.',true);
+   v.dwell=S.run?1e9:14000;
+  }
+ }
+ moveVeh(false);
+ updatePkgs();
+ live();
+}
+
+/* ───── Arranque ───── */
+seed();
+let saved=null;try{saved=localStorage.getItem('tm-role')}catch(e){}
+S.role=(saved==='pax'||saved==='drv')?saved:null;
+buildNav();badge();
+go(S.role?(S.role==='drv'?'drv-home':'pax-home'):'role');
+setInterval(tick,250);
+</script>
+</body>
+</html>
